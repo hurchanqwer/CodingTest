@@ -7,21 +7,21 @@ using namespace std;
 //+와 - 두가지 경우의 수
 //depth 충족 시 sum == target 체크, 맞다면 answer++
     
-void dfs(int depth, int sum, int target, int& answer , vector<int> numbers){
+void dfs(int depth, int sum, const int& target , const vector<int>& numbers, int& answer){
     if(depth == numbers.size()){
         if(sum == target)
             answer++;
 
         return ;
     }
-        dfs(depth+1, sum + numbers[depth], target,answer, numbers);
-        dfs(depth+1, sum - numbers[depth], target,answer, numbers);
+        dfs(depth+1, sum + numbers[depth], target, numbers, answer);
+        dfs(depth+1, sum - numbers[depth], target, numbers, answer);
 }
 
 
 int solution(vector<int> numbers, int target) {
     int answer = 0;
-    dfs(0, 0, target, answer, numbers);
+    dfs(0, 0, target, numbers, answer);
     return answer;
 }
 
