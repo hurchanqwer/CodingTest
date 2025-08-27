@@ -7,8 +7,6 @@ using namespace std;
 int solution(vector<int> priorities, int location) {
     int answer = 0;
     priority_queue<int> waitQ;
-
-    int index = 0;
     
     for(int p : priorities){
         waitQ.push(p);
