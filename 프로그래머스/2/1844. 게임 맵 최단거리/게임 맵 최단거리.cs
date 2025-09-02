@@ -1,42 +1,34 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-class Solution
-{
-    bool[,] visited;
-    int[] mx = { -1, 1, 0, 0 };
-    int[] my = { 0, 0, -1, 1 };
 
-    List<int> weight = new List<int>();
-
-    public int solution(int[,] maps)
-    {
-        visited = new bool[maps.GetLength(0), maps.GetLength(1)];
-        Queue<(int, int, int)> q = new Queue<(int, int, int)>();
-        q.Enqueue((0, 0, 0));
-
-        int answer = 0;
-        while (q.Count > 0)
-        {
-            (int x, int y, int depth) = q.Dequeue();
-
-            depth++;
-
-            if (x == maps.GetLength(1) - 1 && y == maps.GetLength(0) - 1)
-                return depth;
+class Solution {
+    public int solution(int[,] maps) {
+        int my = maps.GetLength(0);
+        int mx = maps.GetLength(1);
+        int[] dx =  {0, 1, -1, 0};
+        int[] dy = {1, 0, 0, -1};
+        Queue<(int,int,int)> que = new Queue<(int,int,int)>();
+        bool[,] visited = new bool[my,mx];
+        que.Enqueue((0,0,1));
+        visited[0, 0] = true;
+        while(que.Count > 0){
+            var (y,x,depth) = que.Dequeue();
             
-            for (int i = 0; i < 4; i++)
-            {
-                int nx = x + mx[i];
-                int ny = y + my[i];
-
-                if (nx < maps.GetLength(1) && ny < maps.GetLength(0) && nx > -1 && ny > -1)
-                {
-                    if (maps[ny, nx] == 1 && !visited[ny, nx])
-                    {
+            if(x == mx-1 && y == my-1 ){
+                return depth;
+            }
+            
+            for(int i = 0;i<4;i++){
+                int nx = dx[i] + x;
+                int ny = dy[i] + y;
+                
+                if(nx < 0 || nx >= mx || ny < 0 || ny >= my)
+                    continue;
+                
+                if(maps[ny, nx] == 1){
+                    if(visited[ny, nx] == false){
+                        que.Enqueue((ny,nx,depth+1));
                         visited[ny, nx] = true;
-                        q.Enqueue((nx, ny, depth));
                     }
                 }
             }
